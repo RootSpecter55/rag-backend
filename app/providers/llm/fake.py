@@ -3,24 +3,33 @@ from collections.abc import AsyncIterator
 
 from app.providers.llm.base import LLMUsage
 
-_FIRST_SOURCE = re.compile(r"^\[1\][^\n]*\n(.+?)(?:\n\n|\Z)", re.MULTILINE | re.DOTALL)
+# The text of source [1]: everything after its "[1] (filename)" line, up to the next source
+# or the question.
+_SOURCE_ONE = re.compile(r"^\[1\][^\n]*\n(.*?)(?=\n\n\[2\]|\n\nQuestion:|\Z)", re.M | re.S)
 
 
 class FakeLLM:
     """Deterministic stand-in for a model, so the API and tests run with no API key.
 
-    It answers with the first sentence of source [1] and cites it. Token counts are word counts,
-    which keeps cost tracking testable but says nothing about real tokenisers.
+    It answers with the first sentence of source [1] (skipping markdown headings) and cites it.
+    Token counts are word counts, which keeps cost tracking testable but says nothing about real
+    tokenisers.
     """
 
     name = "fake"
     model = "fake-llm"
 
     def _answer(self, user: str) -> str:
-        match = _FIRST_SOURCE.search(user)
+        match = _SOURCE_ONE.search(user)
         if not match:
             return "I could not find this in the provided sources."
-        first_sentence = re.split(r"(?<=[.!?])\s", match.group(1).strip(), maxsplit=1)[0]
+        lines = [
+            line.strip()
+            for line in match.group(1).splitlines()
+            if line.strip() and not line.lstrip().startswith("#")
+        ]
+        text = " ".join(lines)
+        first_sentence = re.split(r"(?<=[.!?])\s", text, maxsplit=1)[0]
         return f"According to [1]: {first_sentence}"
 
     async def stream(self, system: str, user: str) -> AsyncIterator[str | LLMUsage]:
