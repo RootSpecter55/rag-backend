@@ -1,0 +1,12 @@
+{"question": "How far in advance must flights be booked?", "expected_document": "travel-policy.md", "keywords": ["14 days"]}
+{"question": "Which class do I fly on a four hour flight?", "expected_document": "travel-policy.md", "keywords": ["economy"]}
+{"question": "Who pays if my hotel costs more than the city rate?", "expected_document": "travel-policy.md", "keywords": ["employee"]}
+{"question": "How soon must I report a stolen laptop?", "expected_document": "security-policy.md", "keywords": ["24 hours"]}
+{"question": "What is the minimum password length?", "expected_document": "security-policy.md", "keywords": ["14 characters"]}
+{"question": "Can I copy customer data to my personal cloud storage?", "expected_document": "security-policy.md", "keywords": ["not allowed"]}
+{"question": "How many days of paid annual leave do full-time employees get?", "expected_document": "leave-policy.md", "keywords": ["25 days"]}
+{"question": "When do carried-over leave days expire?", "expected_document": "leave-policy.md", "keywords": ["31 March"]}
+{"question": "How long is parental leave?", "expected_document": "leave-policy.md", "keywords": ["16 weeks"]}
+{"question": "How often are laptops replaced?", "expected_document": "equipment-faq.md", "keywords": ["three years"]}
+{"question": "How long do I have to return equipment after leaving?", "expected_document": "equipment-faq.md", "keywords": ["ten working days"]}
+{"question": "What equipment do new employees get on day one?", "expected_document": "equipment-faq.md", "keywords": ["laptop", "monitor", "headset"]}
